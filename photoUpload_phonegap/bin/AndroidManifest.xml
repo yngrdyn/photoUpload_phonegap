@@ -27,8 +27,7 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="9" />
+        android:minSdkVersion="9" />
 
     <application
         android:allowBackup="true"

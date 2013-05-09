@@ -1,14 +1,54 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Background Example</title>
+    <title>FileReader Example</title>
 
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	
-    <script type="text/javascript" charset="utf-8" src="js/cordova-2.0.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    
+    // PhoneGap is ready
+    //
+    function onDeviceReady() {
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+    }
 
+    function gotFS(fileSystem) {
+        fileSystem.root.getFile("readme.txt", null, gotFileEntry, fail);
+    }
+
+    function gotFileEntry(fileEntry) {
+        fileEntry.file(gotFile, fail);
+    }
+
+    function gotFile(file){
+        readAsText(file);
+    }
+
+    function readAsText(file) {
+    alert("hoaa");
+        var reader = new FileReader();
+        reader.onloadend = function(evt) {
+            console.log("Read as text");
+            console.log(evt.target.result);
+        };
+        reader.readAsText(file);
+    }
+
+    function fail(evt) {
+        console.log(evt.target.error.code);
+    }
+    // Wait for PhoneGap to load
+    //
+    function onLoad() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    
+
+    </script>
   </head>
-  <body>
-    <h3>PhotoUpload Example</h3>
+  <body onload="onDeviceReady()">
+    <h1>PhotoUpload Example</h1>
+    <p>Read File</p>
   </body>
 </html>
