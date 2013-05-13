@@ -2,9 +2,10 @@
 <html>
   <head>
     <title>FileReader Example</title>
-
-    <script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
-    <script type="text/javascript" charset="utf-8">
+		
+	<script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
+	<script>
+		document.addEventListener("deviceready", onLoad, false);
     
     // PhoneGap is ready
     //
@@ -25,30 +26,41 @@
     }
 
     function readAsText(file) {
-    alert("hoaa");
         var reader = new FileReader();
         reader.onloadend = function(evt) {
             console.log("Read as text");
             console.log(evt.target.result);
+            showCategories(evt.target.result)
         };
         reader.readAsText(file);
     }
 
     function fail(evt) {
-        console.log(evt.target.error.code);
+        alert("falle al cargar archivo");
     }
     // Wait for PhoneGap to load
     //
     function onLoad() {
-        document.addEventListener("deviceready", onDeviceReady, false);
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
     }
-
     
+    function showCategories(fileContent){
+    	 document.getElementById("result").innerHTML = fileContent;
+    	 var obj = JSON.parse(fileContent);
+    	 var result = "<select><option value=\"\" disabled=\"disabled\" selected=\"selected\">Seleccione una categoria</option>";
+    	 for(var i=0;i<obj.length;i++){
+    	 	result += "<option value=\""+obj[i].id+"\">"+obj[i].categoria+"</option>";
+    	 }
+    	 result += "</select>";
+    	 document.getElementById("result1").innerHTML = result;
+    }
 
     </script>
   </head>
-  <body onload="onDeviceReady()">
+  <body>
     <h1>PhotoUpload Example</h1>
     <p>Read File</p>
+    <div id="result"></div>
+    <div id="result1"></div>
   </body>
 </html>
