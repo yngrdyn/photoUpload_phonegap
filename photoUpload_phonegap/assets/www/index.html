@@ -45,22 +45,24 @@
     }
     
     function showCategories(fileContent){
-    	 document.getElementById("result").innerHTML = fileContent;
     	 var obj = JSON.parse(fileContent);
-    	 var result = "<select><option value=\"\" disabled=\"disabled\" selected=\"selected\">Seleccione una categoria</option>";
+    	 var result = "<center><select><option value=\"\" disabled=\"disabled\" selected=\"selected\">Seleccione una categoria</option>";
     	 for(var i=0;i<obj.length;i++){
     	 	result += "<option value=\""+obj[i].id+"\">"+obj[i].categoria+"</option>";
     	 }
-    	 result += "</select>";
-    	 document.getElementById("result1").innerHTML = result;
+    	 result += "</select></center>";
+    	 document.getElementById("result").innerHTML = result;
     }
 
     </script>
   </head>
   <body>
     <h1>PhotoUpload Example</h1>
-    <p>Read File</p>
-    <div id="result"></div>
-    <div id="result1"></div>
+    <div id="result">
+    	<center>
+    		<p>Loading Categories</p>
+    		<img src="img/loading.gif">
+    	</center>
+    </div>
   </body>
 </html>
