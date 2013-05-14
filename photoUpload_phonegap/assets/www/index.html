@@ -3,13 +3,20 @@
   <head>
     <title>FileReader Example</title>
 		
+	<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>	
 	<script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
 	<script>
+	
+	var pictureSource;   // picture source
+    var destinationType; // sets the format of returned value 
+    
+    
 		document.addEventListener("deviceready", onLoad, false);
     
     // PhoneGap is ready
     //
     function onDeviceReady() {
+   		pictureSource=navigator.camera.PictureSourceType;
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
     }
 
@@ -54,15 +61,60 @@
     	 document.getElementById("result").innerHTML = result;
     }
 
+    // Called when a photo is successfully retrieved
+    //
+    function onPhotoURISuccess(imageURI) {
+      // Uncomment to view the image file URI 
+      console.log(imageURI);
+
+      // Get image handle
+      //
+      var largeImage = document.getElementById('largeImage');
+
+      // Unhide image elements
+      //
+      largeImage.style.display = 'block';
+
+      // Show the captured photo
+      // The inline CSS rules are used to resize the image
+      //
+      largeImage.src = imageURI;
+    }
+
+    // A button will call this function
+    //
+    function capturePhoto() {
+      // Take picture using device camera and retrieve image as base64-encoded string
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+        destinationType: Camera.DestinationType.FILE_URI });
+    }
+
+    // Called if something bad happens.
+    // 
+    function onFail(message) {
+      alert('Failed because: ' + message);
+    }
+
+
+    
+    $('select').live('change', function(){
+        // Writing selected value in localStorage
+		localStorage.myvariable = $(this).find(":selected").val();
+		capturePhoto();
+    });
+
     </script>
   </head>
   <body>
-    <h1>PhotoUpload Example</h1>
-    <div id="result">
-    	<center>
+    <br><br>
+    <center>
+    	<h2>Categories</h2>
+	    <br>
+	    <div id="result">
     		<p>Loading Categories</p>
     		<img src="img/loading.gif">
-    	</center>
-    </div>
+	    </div>
+	    <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+	</center>
   </body>
 </html>

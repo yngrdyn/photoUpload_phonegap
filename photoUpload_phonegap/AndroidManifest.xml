@@ -36,6 +36,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.photoupload_phonegap.MainActivity"
+            android:configChanges="orientation|keyboardHidden" 
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
